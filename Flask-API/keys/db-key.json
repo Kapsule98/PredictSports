@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "predictsports-db",
+  "private_key_id": "f346d23697035d83de58c53a9c33676183285383",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDAdTOHYsDDChDM\nSLtU7AZIx+IUT/HdbyisaljxIRFq7zOnqlWp2q+LdihTffVbQNG5rr+QXa2GOhy+\n0lVvxepMpEtEABrsdNIo+W6Wb3klbBmbl9qEJroRReEFESOfsk+zpP1YHqTwvbjl\n0cyTcQcUN9tKZBt3WDWGiiDu8RdV0U4BCu9ZUrVM2LbLBed2SNlJ8L4I9tD7GV80\nai3PtIla2BcO7x3kRBrBofaya53RWV6hNTGwviBCVo8jXiknTM0a2VPjltw+pVU8\nL5BNJ0qvdCXLVpI6j1CNdI5uqUBiaiCoOffvOzYP40BA1052DxCz/Et9ab8UKq9D\nfSbve5ilAgMBAAECggEABKg+MhMCMVYPhQBnkOaec+lrJgZ8BsAKkgchL6iXGGlB\nOaS/qoeq6TfxQhMrILIUJ42if7BWPO7JqxZ06dEDJydv1aC5BhE0beuafcc+lvJW\nn+Zc69PyFO2F3fUFt/bjj3UF8NMN0In1LPgja35eZ2KL16RN6j8dgHipBlwALnWC\nhEF0zAPD6WEjNS1QQcJvvoSsOBucH2QKdre41LEq6D4sDL98z1I2ZGQZ/hWriwWr\nHfbufntIjvj1RJHGYk1n93Vh+FsIHNOHZwYZw1u4bVhlk3YRmBhLUVzjHUvPEZiH\nJ99vmIjIWFucAz0BDDl/eTo8coV22NwwmtE6Msdk4QKBgQDmqddOWFCC0zvAYcsG\nB7FlyXz7OCOP0EKN0Ugl+MFNy8B9ZxymzelxtI1/a3Ocg47Sb52HuM1nOAnWv4f6\npiwoUiFw8hbirb6XSh7B7P3ZpHBBTl99p2tKF8qJF2kr/QXyGbjieXdmrDf7Hzjg\ntoFEDTAZwigGpYgHRYTwH+H2lQKBgQDVmQi/IUyXsibJhGC6jLbQojw1n2B2SpjK\nY2CbN1X1c5Kvo1g+Kxfk00aKtvhCRxcewpMFipipDOVa23njRN69aB13DvmxTc6z\nlwG3GuoNpQIpcEEE4+9BEBzHobX0wak2xd+eMJEHp5pbk9a4EAQCatPdq2MTTyLI\nb9T09zbl0QKBgEpI1FAk3Pjk8k9Ir0un2pe/RgLZ14oPNf/aMHQaIpbdUYaRWIbX\ntaCq1w78GeWD8NEQpRj6iRv+zhxc3nv4XCw4FxD6xigGcGTkt/cYTcBz1rsRdGtR\nKZpZAx8XbQV/nRSU+Bfnqm5kdDrpmTW1UPgLjzwcbSuGz8IXv3JdsjXpAoGADAeZ\naYJLmQOMka7l77u7FBb/Axodyau73TIpn7RHIBLJQSEW+DFfICESCP/zDXCJic71\njstWe7bhN/PCcp1PWiWB+1GZmHXEXXL0wsY+RlRzwbezwb3AnM52gHvIDqfViuMs\nC/G6SU8UL3ItFqK4RxaTJhnf85dyYw2BVeaSbfECgYB8xEyWrdmtT3IAKDj/+BzL\nZwzGj9Xd+kWq1fuOwLlQ+2iH20fVZ5aOR+bniWHY3JulG55pD+ELax5AzXGyQIV/\noneRg87wu2tDp3ZRzKq4/uqVadQLf+UGfLsEyPOWrSH5NvJCl+xsRkkFltTzz8r/\n8Ktd3ziy0o3p4QN4vE8hhw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-b2ukf@predictsports-db.iam.gserviceaccount.com",
+  "client_id": "100145718062856594682",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-b2ukf%40predictsports-db.iam.gserviceaccount.com"
+}
