@@ -89,5 +89,164 @@ def logout():
         }
     })
 
+@app.route('/makeprediction',methods=['POST'])
+@jwt_required()
+def postPrediction():
+    if request.method == 'POST':
+        username = get_jwt_identity()
+        req = request.get_json()
+        matchid = req['matchid']
+        prediction = req['prediction']
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO prediction (matchid,username,prediction) VALUES (%s,%s,%s)",(matchid,username,prediction))
+        mysql.connection.commit()
+        return jsonify({
+            "msg":"Prediction added successfully",
+            "status":200
+        })
+
+@app.route('/getpredictions',methods=['GET'])
+def getPredictions():
+    cur = mysql.connection.cursor()
+    n_predictions = cur.execute("SELECT * FROM predictions")
+    if n_predictions > 0:
+        resp = cur.fetchall()
+        result = []
+        obj = {}
+        for prediction in resp:
+            obj = {
+                "matchid":prediction[0],
+                "username":prediction[1],
+                "prediction":prediction[2]
+            }
+            result.append(obj)
+            obj = {}
+        return jsonify({
+            "msg":"Predictions fetched successfully",
+            "data": result,
+            "number of predictions":n_predictions,
+            "status":200
+        })
+    else:
+        return jsonify({
+            "msg":"No Predictions to fetch",
+            "data": "",
+            "number of predictions":n_predictions,
+            "status":404
+        })
+
+@app.route('/getpredictions/<string:username>',methods=['GET'])
+@jwt_required()
+def getPredictions(username):
+    cur = mysql.connection.cursor()
+    n_predictions = cur.execute("SELECT * FROM predictions WHERE username=%s",(username,))
+    if n_predictions > 0:
+        resp = cur.fetchall()
+        result = []
+        obj = {}
+        for prediction in resp:
+            obj = {
+                "matchid":prediction[0],
+                "username":prediction[1],
+                "prediction":prediction[2]
+            }
+            result.append(obj)
+            obj = {}
+        return jsonify({
+            "msg":"Predictions fetched successfully",
+            "data": result,
+            "number of predictions":n_predictions,
+            "status":200
+        })
+    else:
+        return jsonify({
+            "msg":"No Predictions to fetch",
+            "data": "",
+            "number of predictions":n_predictions,
+            "status":404
+        })
+
+@app.route('/getpredictions/<string:matchid>',methods=['GET'])
+@jwt_required()
+def getPredictions(matchid):
+    cur = mysql.connection.cursor()
+    n_predictions = cur.execute("SELECT * FROM predictions WHERE matchid=%s",(matchid,))
+    if n_predictions > 0:
+        resp = cur.fetchall()
+        result = []
+        obj = {}
+        for prediction in resp:
+            obj = {
+                "matchid":prediction[0],
+                "username":prediction[1],
+                "prediction":prediction[2]
+            }
+            result.append(obj)
+            obj = {}
+        return jsonify({
+            "msg":"Predictions fetched successfully",
+            "data": result,
+            "number of predictions":n_predictions,
+            "status":200
+        })
+    else:
+        return jsonify({
+            "msg":"No Predictions to fetch",
+            "data": "",
+            "number of predictions":n_predictions,
+            "status":404
+        })
+
+@app.route('/getpredictions/<string:username>/<string:matchid>',methods=['GET'])
+@jwt_required()
+def getPredictions(username,matchid):
+    cur = mysql.connection.cursor()
+    n_predictions = cur.execute("SELECT * FROM predictions WHERE username=%s AND matchid=%s",(username,matchid))
+    if n_predictions > 0:
+        resp = cur.fetchall()
+        result = []
+        obj = {}
+        for prediction in resp:
+            obj = {
+                "matchid":prediction[0],
+                "username":prediction[1],
+                "prediction":prediction[2]
+            }
+            result.append(obj)
+            obj = {}
+        return jsonify({
+            "msg":"Predictions fetched successfully",
+            "data": result,
+            "number of predictions":n_predictions,
+            "status":200
+        })
+    else:
+        return jsonify({
+            "msg":"No Predictions to fetch",
+            "data": "",
+            "number of predictions":n_predictions,
+            "status":404
+        })
+
+@app.route('/user/<string:username>',methods=['POST'])
+def update_score(username):
+    req = request.get_json()
+    score = req['score']
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM user WHERE username=%s",(username,))
+    n_user = cur.fetchone()
+    if n_user>0:
+        cur.execute("UPDATE user SET score=%s WHERE username=%s",(score,username))
+        mysql.connection.commit()
+        return jsonify({
+            "msg":"Score updated successfully",
+            "status":200
+        })
+    else:
+        return jsonify({
+            "msg":"Username not found",
+            "status":404
+        })
+
 if __name__ == '__main__':
     app.run(debug=True)
