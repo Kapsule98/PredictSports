@@ -1,3 +1,4 @@
+<!--
 HTTP Method         URL                                         Authentication
 GET                 /                                               JWT
 POST                /register               
@@ -9,7 +10,7 @@ GET                 /getprediction/username                         JWT
 GET                 /getprediction/matchid                          JWT
 GET                 /getprediction/username/matchid                 JWT
 POST                /user/username              
-
+-->
 #### API description
 <table>
 <tr>
