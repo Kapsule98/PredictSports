@@ -1,5 +1,0 @@
-mysql_host : 'localhost'
-mysql_user : 'root'
-mysql_password : 'kkkk'
-mysql_db : predictsports
-jwt_key : 'dev'
