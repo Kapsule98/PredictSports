@@ -20,19 +20,31 @@ export default {
         }
     },
     methods: {
+        init() {
+            this.username = '';
+            this.password = '';
+        },
         login() {
-            console.log('login')
             const url = 'http://127.0.0.1:5000/login'
             const payload = {
                 'username':this.username,
                 'password':this.password
             }
             axios.post(url,payload).then(res => {
-                if(res.status == 200){
-                    this.$router.push('/homepage')
+                if(res.data.status == 200){
+                    const user_info = {
+                        'username': res.data.username,
+                        'accesstoken': res.data.accesstoken
+                    }
+                    this.$session.start()
+                    this.$session.set('userinfo',user_info)
+                    this.$session.set('loggedin',true)
+                    this.$router.push('/')
                 }
                 else{
-                    this.router.push('/login')
+                    alert(res.data.msg)
+                    this.init()
+                    //this.$router.push('/login')
                 }
             }).catch(err => {
                 console.log(err)

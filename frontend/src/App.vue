@@ -1,16 +1,31 @@
 <template>
   <div id="app">
-    <Login/>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link v-if="!loggedin" to="/login">Login</router-link> |
+      <router-link v-if="!loggedin" to="/register">Register</router-link> |
+      <router-link v-if="loggedin" to="/logout">Logout</router-link> |
+    </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Login from './components/Login.vue'
-
 export default {
-  name: 'App',
-  components: {
-    Login
+  data(){
+    return{
+      loggedin: false
+    }
+  },
+  created() {
+    const status = this.$session.get('loggedin')
+    if(status == true){
+      this.loggedin = true
+    }
+    else{
+      this.loggedin = false
+    }
   }
 }
 </script>
@@ -22,6 +37,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

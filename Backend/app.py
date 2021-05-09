@@ -91,7 +91,8 @@ def login():
         access_token = create_access_token(identity=username_in)
         res = {
             'msg': 'Login successfull',
-            'access-token': access_token,
+            'accesstoken': access_token,
+            'username': username_in,
             'status': 200
         }
     else:
