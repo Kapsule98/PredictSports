@@ -6,6 +6,7 @@
 <script>
 import axios from 'axios'
 import {BASE_URL} from '../../../utils/constants'
+import eventBus from '../../../utils/eventbus'
 export default {
     created(){
         const accessToken = this.$session.get('userinfo').accesstoken
@@ -17,10 +18,11 @@ export default {
             }
         }).then(res => {
             console.log(res)
-            alert(res.data.msg)
+            alert(res.data.msg)     
             if(res.data.status == 200){
                 this.$session.destroy()
-                this.$router.push('login')
+                eventBus.$emit('login',false);
+                this.$router.push('/')
             }
         }).catch(err => {
             console.log(err);

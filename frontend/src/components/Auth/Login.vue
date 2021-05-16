@@ -4,13 +4,13 @@
         <input type="text" v-model="username"/>
         <label>Password</label>
         <input type="password" v-model="password"/>
-        <button v-on:click="login()">Submit</button>
+        <button @click="login()">Submit</button>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-
+import eventBus from '../../../utils/eventbus'
 export default {
     
     data() {
@@ -36,9 +36,11 @@ export default {
                         'username': res.data.username,
                         'accesstoken': res.data.accesstoken
                     }
+                    alert("in")
                     this.$session.start()
                     this.$session.set('userinfo',user_info)
                     this.$session.set('loggedin',true)
+                    eventBus.$emit('login', true)
                     this.$router.push('/')
                 }
                 else{
@@ -50,6 +52,9 @@ export default {
                 console.log(err)
             })
         }
+    },
+    created(){
+        
     }
 }
 </script>

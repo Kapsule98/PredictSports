@@ -32,6 +32,21 @@ const routes = [
     name: 'Logout',
     component: () => import('../components/Auth/Logout.vue')
   },
+  {
+    path: '/leaderboard',
+    name: 'Leaderboard',
+    component: () => import('../components/LeaderBoard/leaderboard.vue')
+  },
+  {
+    path: '/matches',
+    name: 'Matches',
+    component: () => import('../components/Match/matches.vue')
+  },
+  {
+    path: '/predict',
+    name: 'Predict',
+    component: () => import('../components/Prediction/predict.vue')
+  },
 
 ]
 
