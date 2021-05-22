@@ -9,7 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 
 # Mongodb Atlas DB .
-connection_url = 'mongodb+srv://kapil:kkkk@predictsportcluster.t4020.mongodb.net/predictsportdb?retryWrites=true&w=majority'
+connection_url = 'mongodb+srv://kapil:{os.environ.get("password")}@predictsportcluster.t4020.mongodb.net/predictsportdb?retryWrites=true&w=majority'
 app = Flask(__name__)
 CORS(app)
 client = pymongo.MongoClient(connection_url)
