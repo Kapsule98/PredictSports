@@ -11,6 +11,7 @@
 <script>
 import axios from 'axios';
 import eventBus from '../../../utils/eventbus'
+import {BASE_URL} from '../../../utils/constants'
 export default {
     
     data() {
@@ -25,7 +26,7 @@ export default {
             this.password = '';
         },
         login() {
-            const url = 'http://127.0.0.1:5000/login'
+            const url = BASE_URL + '/login'
             const payload = {
                 'username':this.username,
                 'password':this.password
@@ -36,7 +37,6 @@ export default {
                         'username': res.data.username,
                         'accesstoken': res.data.accesstoken
                     }
-                    alert("in")
                     this.$session.start()
                     this.$session.set('userinfo',user_info)
                     this.$session.set('loggedin',true)
