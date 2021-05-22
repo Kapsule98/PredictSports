@@ -346,6 +346,7 @@ def update_score():
                 })
                 count = count + 1
                 break
+    print('resolved predictions = ', count)
     return jsonify({
         "msg": "updated score in db",
         "count": count
