@@ -316,7 +316,7 @@ def calculate_score(match, prediction):
     if actual == predicted:
         return 3
     else :
-        return 0
+        return 1
 
 @app.route('/updatescore',methods=['GET'])
 def update_score():
