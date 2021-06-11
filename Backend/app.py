@@ -1,4 +1,5 @@
 from flask import Flask, json,jsonify,request
+from flask.globals import current_app
 from flask_jwt_extended import create_access_token,get_jwt_identity,jwt_required,JWTManager
 from flask_cors import CORS
 import pymongo
@@ -46,6 +47,7 @@ def register():
     user_details = request.get_json()
     username = user_details['username']
     password = user_details['password']
+    displayname = user_details['displayname']
     score = 0
 
     ## if there is no user with same username then register user with initial score as 0
@@ -54,6 +56,7 @@ def register():
         new_user_object = {
             'username': username,
             'password': generate_password_hash(password),
+            'displayname':displayname,
             'score': score
         }
         UserTable.insert_one(new_user_object)
@@ -88,6 +91,8 @@ def login():
             'msg': 'Login successfull',
             'accesstoken': access_token,
             'username': username_in,
+            'displayname':user_search['displayname'],
+            'score': user_search['score'],
             'status': 200
         }
     else:
@@ -112,9 +117,11 @@ def getUsers():
     resData = UserTable.find()
     usersdata = []
     for user in resData:
+        print(user)
         userobj = {
             'username': user['username'],
-            'score': user['score']
+            'score': user['score'],
+            'displayname':user['displayname'],
         }
         usersdata.append(userobj)
     res = None
@@ -319,42 +326,49 @@ def calculate_score(match, prediction):
         return 1
 
 @app.route('/updatescore',methods=['GET'])
-def update_score():
-    connection = http.client.HTTPConnection('api.football-data.org')
-    headers = { 'X-Auth-Token': '1aef8588c448420db90524cb64d2455e' }
-    connection.request('GET', '/v2/competitions/2021/matches', None, headers )
-    apiData = json.loads(connection.getresponse().read().decode())
-    apiMatchData = apiData['matches']
-    predictions = PerdictionTable.find()
-    count = 0
-    for prediction in predictions:
-        for match in apiMatchData:
-            if match['id'] == prediction['matchid'] and match['status'] == "FINISHED":
-                score = calculate_score(match, prediction['prediction'])
-                prev_score = UserTable.find_one({
-                    'username':prediction['username']
-                })['score']
-                new_score = prev_score + score
-                UserTable.find_one_and_update({
-                    'username': prediction['username']
-                },{"$set":{
-                    "score":new_score
-                }})
-                PerdictionTable.delete_one({
-                    'matchid':prediction['matchid'],
-                    'username':prediction['username']
-                })
-                count = count + 1
-                break
-    print('resolved predictions = ', count)
-    return jsonify({
-        "msg": "updated score in db",
-        "count": count
-    })
+def update_score(app):
+    with app.app_context():
+        connection = http.client.HTTPConnection('api.football-data.org')
+        headers = { 'X-Auth-Token': '1aef8588c448420db90524cb64d2455e' }
+        connection.request('GET', '/v2/competitions/2021/matches', None, headers )
+        apiData = json.loads(connection.getresponse().read().decode())
+        apiMatchData = apiData['matches']
+        predictions = PerdictionTable.find()
+        count = 0
+        for prediction in predictions:
+            for match in apiMatchData:
+                print(str(prediction['matchid']) ==  str(match['id']))
+                if str(match['id']) == str(prediction['matchid']) and str(match['status']) == "FINISHED":
+                    print("in")
+                    score = calculate_score(match, prediction['prediction'])
+                    print("score = ",score)
+                    prev_score = UserTable.find_one({
+                        'username':prediction['username']
+                    })['score']
+                    new_score = prev_score + score
+                    UserTable.find_one_and_update({
+                        'username': prediction['username']
+                    },{"$set":{
+                        "score":new_score
+                    }})
+                    PerdictionTable.delete_one({
+                        'matchid':prediction['matchid'],
+                        'username':prediction['username']
+                    })
+                    count = count + 1
+                    break
+        print('resolved predictions = ', count)
+        return jsonify({
+            "msg": "updated score in db",
+            "count": count
+        })
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=update_score, trigger="interval", seconds=3600)
-scheduler.start()
 
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
+# scheduler = BackgroundScheduler()
+
+# with app.app_context():
+#         scheduler.add_job(func=update_score(current_app._get_current_object()), trigger="interval", seconds=20)
+#         scheduler.start()
+#         # Shut down the scheduler when exiting the app
+#         atexit.register(lambda: scheduler.shutdown())
+
