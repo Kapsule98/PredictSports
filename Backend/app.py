@@ -111,6 +111,31 @@ def logout():
         "status":200,
     })
 
+@app.route('/updatepassword',methods=['POST'])
+def updatePassword():
+    req = request.get_json()
+    uid = req['username']
+    newpassword = req['password']
+    user_search = UserTable.find_one({
+        'username':uid,
+    })
+    if user_search is not None:
+        UserTable.find_one_and_update({
+            'username': uid
+        },{"$set":{
+            "password":generate_password_hash(newpassword)
+        }})
+        return jsonify({
+            'msg':'password updated successfully',
+            'status':200
+        })
+    else:
+        return jsonify({
+            'msg':'invalid request/username',
+            'status':400
+        })
+
+
 @app.route('/user', methods=['GET'])
 @jwt_required()
 def getUsers():
@@ -371,4 +396,3 @@ def update_score(app):
 #         scheduler.start()
 #         # Shut down the scheduler when exiting the app
 #         atexit.register(lambda: scheduler.shutdown())
-
