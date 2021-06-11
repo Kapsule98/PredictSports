@@ -20,6 +20,7 @@ Database = client.get_database('predictsportdb')
 # Table
 UserTable = Database['_user']
 PerdictionTable = Database['_prediction']
+RPTable = Database['_resolvedPredictions']
 sample_user = UserTable.find_one({
     'username':'test_user'
 })
@@ -351,7 +352,7 @@ def calculate_score(match, prediction):
         return 1
 
 @app.route('/updatescore',methods=['GET'])
-def update_score(app):
+def update_score():
     with app.app_context():
         connection = http.client.HTTPConnection('api.football-data.org')
         headers = { 'X-Auth-Token': '1aef8588c448420db90524cb64d2455e' }
@@ -362,7 +363,6 @@ def update_score(app):
         count = 0
         for prediction in predictions:
             for match in apiMatchData:
-                print(str(prediction['matchid']) ==  str(match['id']))
                 if str(match['id']) == str(prediction['matchid']) and str(match['status']) == "FINISHED":
                     print("in")
                     score = calculate_score(match, prediction['prediction'])
@@ -380,6 +380,11 @@ def update_score(app):
                         'matchid':prediction['matchid'],
                         'username':prediction['username']
                     })
+                    RPTable.insert_one({
+                        'matchid':prediction['matchid'],
+                        'username':prediction['username'],
+                        'prediction': prediction['prediction']
+                    })
                     count = count + 1
                     break
         print('resolved predictions = ', count)
@@ -396,3 +401,5 @@ def update_score(app):
 #         scheduler.start()
 #         # Shut down the scheduler when exiting the app
 #         atexit.register(lambda: scheduler.shutdown())
+# if __name__ == "__main__":
+#   app.run()
