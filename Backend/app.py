@@ -355,7 +355,7 @@ def update_score(app):
     with app.app_context():
         connection = http.client.HTTPConnection('api.football-data.org')
         headers = { 'X-Auth-Token': '1aef8588c448420db90524cb64d2455e' }
-        connection.request('GET', '/v2/competitions/2021/matches', None, headers )
+        connection.request('GET', '/v2/competitions/2018/matches', None, headers )
         apiData = json.loads(connection.getresponse().read().decode())
         apiMatchData = apiData['matches']
         predictions = PerdictionTable.find()
